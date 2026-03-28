@@ -2,10 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Lexend Deca", sans-serif;
 }
 
 body{
-    background-color: #f2f3f4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,7 +16,8 @@ body{
     display: flex;
     flex-direction: column;
     width: 15%;
-    border: 1px solid;
+    height: 50%;
+    box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 10px 10px -6px, rgba(14, 63, 126, 0.04) 0px 4px 4px -6px;
 }
 
 .buttons-container > div{
@@ -24,15 +25,26 @@ body{
 }
 
 button {
-    width: 33%;
-    height: 43px;
+    width: 34%;
+    height: 55px;
     cursor: pointer;
     user-select: none;
+    border: none;
+    background-color: white;
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: #f2f2f2;
+}
+
+button:active {
+    background-color: #fff;
 }
 
 .display {
     width: 100%;
-    min-height: 70px;
+    min-height: 100px;
     padding: 5px;
     font-size: 22px;
     display: flex;
@@ -40,4 +52,33 @@ button {
     justify-content: flex-end;
     word-break: break-all;
     word-wrap: break-word;
+    background-color: white;
+}
+
+.decimal {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.operator {
+    font-size: 20px;
+}
+
+.equal{
+    background-color: rgba(51, 255, 0, 0.548);
+    font-size: 25px;
+}
+.equal:hover {
+    background-color: rgba(51, 255, 0, 0.726);
+}
+.equal:active {
+    background-color: rgba(51, 255, 0, 0.426);
+}
+
+.operator {
+    color: rgba(255, 0, 255, 0.726);
+}
+
+.clear,.backspace {
+    color: rgba(255, 0, 0, 0.904);
 }
