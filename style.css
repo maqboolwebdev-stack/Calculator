@@ -30,10 +30,14 @@ button {
     user-select: none;
 }
 
-input {
+.display {
     width: 100%;
-    height: 70px;
-    padding: 0px 5px;
-    text-align: right;
+    min-height: 70px;
+    padding: 5px;
     font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    word-break: break-all;
+    word-wrap: break-word;
 }
