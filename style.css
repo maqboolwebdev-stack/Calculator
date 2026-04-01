@@ -52,8 +52,7 @@ body{
 .calculator {
     display: flex;
     flex-direction: column;
-    width: 15%;
-    height: 50%;
+    min-width: 15rem;
     box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 10px 10px -6px, rgba(14, 63, 126, 0.04) 0px 4px 4px -6px;
 }
 
@@ -63,12 +62,12 @@ body{
 
 button {
     width: 34%;
-    height: 55px;
+    height: 3.438rem;
     cursor: pointer;
     user-select: none;
     border: none;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     font-weight: 200;
 }
 
@@ -82,9 +81,9 @@ button:active {
 
 .display {
     width: 100%;
-    min-height: 100px;
-    padding: 5px;
-    font-size: 29px;
+    min-height: 6.25rem;
+    padding: 0.313rem;
+    font-size: 1.813rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -95,16 +94,16 @@ button:active {
 }
 
 .decimal {
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .operator {
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .equal{
     background-color: rgba(51, 255, 0, 0.548);
-    font-size: 25px;
+    font-size: 1.563rem;
 }
 .equal:hover {
     background-color: rgba(51, 255, 0, 0.726);
@@ -122,7 +121,7 @@ button:active {
 }
 
 .equal svg {
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
     margin: 0px auto;
 }
