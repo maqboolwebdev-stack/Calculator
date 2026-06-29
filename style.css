@@ -50,6 +50,7 @@ body{
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    background: #f1f1f191;
 }
 
 .calculator {
@@ -57,6 +58,7 @@ body{
     flex-direction: column;
     min-width: 15rem;
     box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 10px 10px -6px, rgba(14, 63, 126, 0.04) 0px 4px 4px -6px;
+    background-color: #fff;
 }
 
 .buttons-container > div{
@@ -101,7 +103,7 @@ button:active {
 }
 
 .operator {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 .equal{
