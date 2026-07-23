@@ -49,6 +49,19 @@ function updateDisplay() {
   } else {
     display.textContent = `${firstNum}${currentOperator}${secondNum}`;
   }
+
+  // Decides when to adjust font size in display
+  const length = display.textContent.length;
+
+  if (length <= 7) {
+    display.style.fontSize = '3.25rem';
+  } else if (length <= 9) {
+    display.style.fontSize = '2.5rem';
+  } else if (length <= 12) {
+    display.style.fontSize = '2rem';
+  } else {
+    display.style.fontSize = '1.25rem';
+  }
 }
 
 const appendNumber = (value) => {
@@ -115,6 +128,7 @@ const calculate = () => {
 
 const clearDisplay = () => {
   display.textContent = '0';
+  display.style.fontSize = '3.25rem'
   firstNum = '';
   secondNum = '';
   currentOperator = null;
