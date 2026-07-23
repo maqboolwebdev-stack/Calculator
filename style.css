@@ -88,18 +88,12 @@ button:active {
     width: 100%;
     min-height: 6.25rem;
     padding: 0.313rem;
-    font-size: 1.813rem;
+    font-size: 3.25rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    word-break: break-all;
-    word-wrap: break-word;
     background-color: var(--bg-clr);
     font-family: 'Courier New', Courier, monospace;
-}
-
-.decimal {
-    font-size: 1.125rem;
 }
 
 .operator {
