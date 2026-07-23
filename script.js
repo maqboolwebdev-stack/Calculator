@@ -54,7 +54,7 @@ function updateDisplay() {
 const appendNumber = (value) => {
   const currentValue = currentOperator === null ? firstNum : secondNum;
 
-  if (value === '.' && currentValue.includes('')) return;
+  if (value === '.' && currentValue.includes(' ')) return;
 
   if (currentOperator === null) {
     if (value === '.' && firstNum === '') {
