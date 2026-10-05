@@ -5,6 +5,7 @@ body{
     justify-content: center;
     min-height: 100vh;
     background: #f1f1f191;
+    margin: 0;
 }
 
 .calculator {
@@ -66,7 +67,7 @@ button:active {
 }
 
 .operator {
-    color: rgba(255, 0, 255, 0.726);
+    color: rgb(211, 38, 211);
 }
 
 .clear,.backspace {
@@ -77,4 +78,8 @@ button:active {
     height: 1.25rem;
     width: 1.25rem;
     margin: 0px auto;
+}
+
+.decimal {
+  font-size: 2rem;
 }
