@@ -39,7 +39,6 @@ button:active {
 }
 
 .display {
-    width: 100%;
     min-height: 6.25rem;
     padding: 0.313rem;
     font-size: 3.25rem;
@@ -48,6 +47,7 @@ button:active {
     justify-content: flex-end;
     background-color: var(--bg-clr);
     font-family: 'Courier New', Courier, monospace;
+
 }
 
 .operator {
