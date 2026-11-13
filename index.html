@@ -11,37 +11,52 @@
     </style>
   </head>
   <body>
-    <div class="calculator">
-      <div class="display">0</div>
-      <div class="buttons-container">
+    <main class="calculator">
+      <h1 class="visually-hidden">Calculator</h1>
+      <p class="visually-hidden" id="calculator-instructions">
+        Use the number keys and +, -, *, /, and % keys to enter a calculation.
+        Press Enter or = to calculate, Backspace to delete, or Escape to clear.
+      </p>
+      <output
+        class="display"
+        aria-label="Calculator display"
+        aria-live="polite"
+        aria-atomic="true"
+      >0</output>
+      <div
+        class="buttons-container"
+        role="group"
+        aria-label="Calculator keypad"
+        aria-describedby="calculator-instructions"
+      >
         <div>
-          <button class="clear">AC</button>
-          <button class="backspace">C</button>
-          <button class="percentage" aria-label="Percent">%</button>
-          <button class="operator">÷</button>
+          <button type="button" class="clear" aria-label="Clear all">AC</button>
+          <button type="button" class="backspace" aria-label="Backspace">C</button>
+          <button type="button" class="percentage" aria-label="Percent">%</button>
+          <button type="button" class="operator" aria-label="Divide">÷</button>
         </div>
         <div>
-          <button class="digits">7</button>
-          <button class="digits">8</button>
-          <button class="digits">9</button>
-          <button class="operator">×</button>
+          <button type="button" class="digits">7</button>
+          <button type="button" class="digits">8</button>
+          <button type="button" class="digits">9</button>
+          <button type="button" class="operator" aria-label="Multiply">×</button>
         </div>
         <div>
-          <button class="digits">4</button>
-          <button class="digits">5</button>
-          <button class="digits">6</button>
-          <button class="operator">-</button>
+          <button type="button" class="digits">4</button>
+          <button type="button" class="digits">5</button>
+          <button type="button" class="digits">6</button>
+          <button type="button" class="operator" aria-label="Subtract">-</button>
         </div>
         <div>
-          <button class="digits">1</button>
-          <button class="digits">2</button>
-          <button class="digits">3</button>
-          <button class="operator">+</button>
+          <button type="button" class="digits">1</button>
+          <button type="button" class="digits">2</button>
+          <button type="button" class="digits">3</button>
+          <button type="button" class="operator" aria-label="Add">+</button>
         </div>
         <div>
-          <button class="digits wide">0</button>
-          <button class="digits decimal">.</button>
-          <button class="equal" aria-label="Equals">
+          <button type="button" class="digits wide">0</button>
+          <button type="button" class="digits decimal" aria-label="Decimal point">.</button>
+          <button type="button" class="equal" aria-label="Equals">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -60,7 +75,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </main>
 
     <script defer src="script.js"></script>
   </body>

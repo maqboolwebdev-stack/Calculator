@@ -8,6 +8,19 @@ body {
   margin: 0;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .calculator {
   display: flex;
   flex-direction: column;
@@ -117,12 +130,12 @@ button:focus-visible {
 
 .operator,
 .percentage {
-  color: rgb(211, 38, 211);
+  color: #7a007a;
 }
 
 .clear,
 .backspace {
-  color: rgba(255, 0, 0, 0.904);
+  color: #b00020;
 }
 
 .equal svg {
