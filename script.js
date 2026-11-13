@@ -3,6 +3,7 @@ const digits = document.querySelectorAll('.digits');
 const backSpace = document.querySelector('.backspace');
 const clear = document.querySelector('.clear');
 const allOperators = document.querySelectorAll('.operator');
+const percentage = document.querySelector('.percentage');
 const equal = document.querySelector('.equal');
 
 const add = (a, b) => {
@@ -25,19 +26,22 @@ const divide = (a, b) => {
 let firstNum = '';
 let secondNum = '';
 let currentOperator = null;
+let percentageApplied = false;
 
-const operate = (op, a, b) => {
+const operate = (op, a, b, usePercentage = false) => {
   a = parseFloat(a);
   b = parseFloat(b);
   switch (op) {
     case '+':
-      return add(a, b);
+      return add(a, usePercentage ? (a * b) / 100 : b);
     case '-':
-      return subtract(a, b);
+      return subtract(a, usePercentage ? (a * b) / 100 : b);
     case '×':
-      return multiply(a, b);
+      return multiply(a, usePercentage ? b / 100 : b);
     case '÷':
-      return divide(a, b);
+      return divide(a, usePercentage ? b / 100 : b);
+    case '%':
+      return (a * b) / 100;
     default:
       return null;
   }
@@ -47,24 +51,25 @@ function updateDisplay() {
   if (currentOperator === null) {
     display.textContent = firstNum || '0';
   } else {
-    display.textContent = `${firstNum}${currentOperator}${secondNum}`;
+    display.textContent = `${firstNum}${currentOperator}${secondNum}${percentageApplied ? '%' : ''}`;
   }
 
   // Decides when to adjust font size in display
   const length = display.textContent.length;
 
   if (length <= 7) {
-    display.style.fontSize = '3.25rem';
+    display.dataset.size = 'short';
   } else if (length <= 9) {
-    display.style.fontSize = '2.5rem';
+    display.dataset.size = 'medium';
   } else if (length <= 12) {
-    display.style.fontSize = '2rem';
+    display.dataset.size = 'small';
   } else {
-    display.style.fontSize = '1.25rem';
+    display.dataset.size = 'tiny';
   }
 }
 
 const appendNumber = (value) => {
+  percentageApplied = false;
   const currentValue = currentOperator === null ? firstNum : secondNum;
 
   // Don't allow more than one Decimal point
@@ -97,13 +102,28 @@ const handleOperator = (operator) => {
   if (firstNum === '') return;
 
   if (currentOperator !== null && secondNum !== '') {
-    const result = operate(currentOperator, firstNum, secondNum);
+    const result = operate(currentOperator, firstNum, secondNum, percentageApplied);
 
     firstNum = String(Math.round(result * 1000) / 1000);
     secondNum = '';
+    percentageApplied = false;
   }
 
   currentOperator = operator;
+
+  updateDisplay();
+};
+
+const handlePercentage = () => {
+  if (firstNum === '') return;
+
+  if (currentOperator === null) {
+    currentOperator = '%';
+  } else if (currentOperator === '%' || secondNum === '') {
+    return;
+  } else {
+    percentageApplied = true;
+  }
 
   updateDisplay();
 };
@@ -114,30 +134,35 @@ allOperators.forEach((opButton) => {
   });
 });
 
+percentage.addEventListener('click', handlePercentage);
+
 const calculate = () => {
   if (!currentOperator || secondNum === '') return;
 
-  const result = operate(currentOperator, firstNum, secondNum);
+  const result = operate(currentOperator, firstNum, secondNum, percentageApplied);
 
   display.textContent = Math.round(result * 1000) / 1000;
 
   firstNum = display.textContent;
   secondNum = '';
   currentOperator = null;
+  percentageApplied = false;
+  updateDisplay();
 };
 
 const clearDisplay = () => {
-  display.textContent = '0';
-  display.style.fontSize = '3.25rem'
   firstNum = '';
   secondNum = '';
   currentOperator = null;
+  percentageApplied = false;
+  updateDisplay();
 };
 
 const deleteNumber = () => {
   if (currentOperator === null) {
     firstNum = firstNum.slice(0, -1);
   } else if (secondNum !== '') {
+    percentageApplied = false;
     secondNum = secondNum.slice(0, -1);
   } else {
     currentOperator = null;
@@ -160,6 +185,8 @@ const handleKeyboardInput = (e) => {
   } else if (e.key === '=' || e.key === 'Enter') {
     e.preventDefault();
     calculate();
+  } else if (e.key === '%') {
+    handlePercentage();
   } else if (['+', '-', '*', '/'].includes(e.key)) {
     let operator = e.key;
 

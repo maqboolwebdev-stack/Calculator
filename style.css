@@ -11,24 +11,43 @@ body{
 .calculator {
     display: flex;
     flex-direction: column;
-    min-width: 18rem;
+    width: min(clamp(20rem, 34vw, 30rem), 64dvh);
+    aspect-ratio: 4 / 5;
     box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 10px 10px -6px, rgba(14, 63, 126, 0.04) 0px 4px 4px -6px;
     background-color: #fff;
 }
 
-.buttons-container > div{
+.buttons-container {
     display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+}
+
+.buttons-container > div{
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.wide {
+    grid-column: span 2;
 }
 
 button {
-    width: 34%;
-    height: 4.469rem;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
     cursor: pointer;
     user-select: none;
     border: none;
     background-color: var(--bg-clr);
     border-radius: 0.625rem;
     font-weight: 200;
+    touch-action: manipulation;
 }
 
 button:hover {
@@ -39,8 +58,13 @@ button:active {
     background-color: var(--bg-clr);
 }
 
+button:focus-visible {
+    outline: 3px solid #4b63d3;
+    outline-offset: 2px;
+}
+
 .display {
-    min-height: 7.25rem;
+    min-height: clamp(4rem, 16vh, 7.25rem);
     padding: 0.313rem;
     font-size: 3.25rem;
     display: flex;
@@ -49,6 +73,18 @@ button:active {
     background-color: var(--bg-clr);
     font-family: 'Courier New', Courier, monospace;
 
+}
+
+.display[data-size="medium"] {
+    font-size: 2.5rem;
+}
+
+.display[data-size="small"] {
+    font-size: 2rem;
+}
+
+.display[data-size="tiny"] {
+    font-size: 1.25rem;
 }
 
 .operator {
@@ -66,7 +102,8 @@ button:active {
     background-color: rgba(51, 255, 0, 0.426);
 }
 
-.operator {
+.operator,
+.percentage {
     color: rgb(211, 38, 211);
 }
 
@@ -82,6 +119,13 @@ button:active {
 
 .decimal {
   font-size: 2rem;
+}
+
+@media (min-width: 427px) and (max-width: 845px) {
+    .calculator {
+        width: 20rem;
+        height: min(clamp(25rem, calc(45rem - 38vw), 35rem), 80dvh);
+    }
 }
 
 @media (max-width: 426px) {
@@ -107,6 +151,18 @@ button:active {
         font-size: clamp(2.5rem, 12vw, 4rem);
     }
 
+    .display[data-size="medium"] {
+        font-size: clamp(2rem, 9vw, 3rem);
+    }
+
+    .display[data-size="small"] {
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+    }
+
+    .display[data-size="tiny"] {
+        font-size: clamp(1.25rem, 5vw, 2rem);
+    }
+
     .buttons-container {
         display: flex;
         flex: 1;
@@ -122,8 +178,6 @@ button:active {
     }
 
     button {
-        flex: 1;
-        width: auto;
         height: auto;
         min-width: 0;
         border-radius: 0.75rem;
