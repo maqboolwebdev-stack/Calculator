@@ -1,120 +1,134 @@
-body{
-    font-family: "Lexend Deca", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: #f1f1f191;
-    margin: 0;
+body {
+  font-family: 'Lexend Deca', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f1f1f191;
+  margin: 0;
 }
 
 .calculator {
-    display: flex;
-    flex-direction: column;
-    width: min(clamp(20rem, 34vw, 30rem), 64dvh);
-    aspect-ratio: 4 / 5;
-    box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 10px 10px -6px, rgba(14, 63, 126, 0.04) 0px 4px 4px -6px;
-    background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: min(clamp(20rem, 34vw, 30rem), 64dvh);
+  aspect-ratio: 4 / 5;
+  box-shadow:
+    rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
+    rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
+    rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+    rgba(42, 51, 70, 0.04) 0px 6px 6px -3px,
+    rgba(14, 63, 126, 0.04) 0px 10px 10px -6px,
+    rgba(14, 63, 126, 0.04) 0px 4px 4px -6px;
+  background-color: #fff;
 }
 
 .buttons-container {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
 }
 
-.buttons-container > div{
-    display: grid;
-    flex: 1;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.5rem;
+.buttons-container > div {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
 }
 
 .wide {
-    grid-column: span 2;
+  grid-column: span 2;
 }
 
 button {
-    width: 100%;
-    min-width: 0;
-    height: auto;
-    min-height: 0;
-    cursor: pointer;
-    user-select: none;
-    border: none;
-    background-color: var(--bg-clr);
-    border-radius: 0.625rem;
-    font-weight: 200;
-    touch-action: manipulation;
-}
-
-button:hover {
-    background-color: #f2f2f2;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background-color: var(--bg-clr);
+  border-radius: 0.625rem;
+  font-weight: 200;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button:active {
-    background-color: var(--bg-clr);
+  background-color: #f2f2f2;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
 }
 
 button:focus-visible {
-    outline: 3px solid #4b63d3;
-    outline-offset: 2px;
+  outline: 3px solid #4b63d3;
+  outline-offset: 2px;
 }
 
 .display {
-    min-height: clamp(4rem, 16vh, 7.25rem);
-    padding: 0.313rem;
-    font-size: 3.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    background-color: var(--bg-clr);
-    font-family: 'Courier New', Courier, monospace;
-
+  min-height: clamp(4rem, 16vh, 7.25rem);
+  padding: 0.313rem;
+  font-size: 3.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: var(--bg-clr);
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.display[data-size="medium"] {
-    font-size: 2.5rem;
+.display[data-size='medium'] {
+  font-size: 2.5rem;
 }
 
-.display[data-size="small"] {
-    font-size: 2rem;
+.display[data-size='small'] {
+  font-size: 2rem;
 }
 
-.display[data-size="tiny"] {
-    font-size: 1.25rem;
+.display[data-size='tiny'] {
+  font-size: 1.25rem;
 }
 
 .operator {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
-.equal{
-    background-color: rgba(51, 255, 0, 0.548);
-    font-size: 1.563rem;
-}
-.equal:hover {
-    background-color: rgba(51, 255, 0, 0.726);
+.equal {
+  background-color: rgba(51, 255, 0, 0.548);
+  font-size: 1.563rem;
 }
 .equal:active {
-    background-color: rgba(51, 255, 0, 0.426);
+  background-color: rgba(51, 255, 0, 0.726);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:hover {
+    background-color: #f2f2f2;
+  }
+
+  .equal:hover {
+    background-color: rgba(51, 255, 0, 0.726);
+  }
 }
 
 .operator,
 .percentage {
-    color: rgb(211, 38, 211);
+  color: rgb(211, 38, 211);
 }
 
-.clear,.backspace {
-    color: rgba(255, 0, 0, 0.904);
+.clear,
+.backspace {
+  color: rgba(255, 0, 0, 0.904);
 }
 
 .equal svg {
-    height: 1.25rem;
-    width: 1.25rem;
-    margin: 0px auto;
+  height: 1.25rem;
+  width: 1.25rem;
+  margin: 0px auto;
 }
 
 .decimal {
@@ -122,66 +136,66 @@ button:focus-visible {
 }
 
 @media (min-width: 427px) and (max-width: 845px) {
-    .calculator {
-        width: 20rem;
-        height: min(clamp(25rem, calc(45rem - 38vw), 35rem), 80dvh);
-    }
+  .calculator {
+    width: 20rem;
+    height: min(clamp(25rem, calc(45rem - 38vw), 35rem), 80dvh);
+  }
 }
 
 @media (max-width: 426px) {
-    body {
-        display: block;
-        height: 100dvh;
-        min-height: 100svh;
-    }
+  body {
+    display: block;
+    height: 100dvh;
+    min-height: 100svh;
+  }
 
-    .calculator {
-        width: 100%;
-        height: 100dvh;
-        min-width: 0;
-        min-height: 100svh;
-        box-shadow: none;
-    }
+  .calculator {
+    width: 100%;
+    height: 100dvh;
+    min-width: 0;
+    min-height: 100svh;
+    box-shadow: none;
+  }
 
-    .display {
-        flex: 0 0 28%;
-        min-height: 0;
-        padding: 1rem 1.5rem;
-        overflow: hidden;
-        font-size: clamp(2.5rem, 12vw, 4rem);
-    }
+  .display {
+    flex: 0 0 28%;
+    min-height: 0;
+    padding: 1rem 1.5rem;
+    overflow: hidden;
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
 
-    .display[data-size="medium"] {
-        font-size: clamp(2rem, 9vw, 3rem);
-    }
+  .display[data-size='medium'] {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
 
-    .display[data-size="small"] {
-        font-size: clamp(1.75rem, 7vw, 2.5rem);
-    }
+  .display[data-size='small'] {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
 
-    .display[data-size="tiny"] {
-        font-size: clamp(1.25rem, 5vw, 2rem);
-    }
+  .display[data-size='tiny'] {
+    font-size: clamp(1.25rem, 5vw, 2rem);
+  }
 
-    .buttons-container {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        min-height: 0;
-        padding: 0.5rem;
-        gap: 0.5rem;
-    }
+  .buttons-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
 
-    .buttons-container > div {
-        flex: 1;
-        gap: 0.5rem;
-    }
+  .buttons-container > div {
+    flex: 1;
+    gap: 0.5rem;
+  }
 
-    button {
-        height: auto;
-        min-width: 0;
-        border-radius: 0.75rem;
-        font-size: 1.5rem;
-        touch-action: manipulation;
-    }
+  button {
+    height: auto;
+    min-width: 0;
+    border-radius: 0.75rem;
+    font-size: 1.5rem;
+    touch-action: manipulation;
+  }
 }

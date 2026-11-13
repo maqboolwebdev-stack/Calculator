@@ -102,7 +102,12 @@ const handleOperator = (operator) => {
   if (firstNum === '') return;
 
   if (currentOperator !== null && secondNum !== '') {
-    const result = operate(currentOperator, firstNum, secondNum, percentageApplied);
+    const result = operate(
+      currentOperator,
+      firstNum,
+      secondNum,
+      percentageApplied,
+    );
 
     firstNum = String(Math.round(result * 1000) / 1000);
     secondNum = '';
@@ -139,7 +144,12 @@ percentage.addEventListener('click', handlePercentage);
 const calculate = () => {
   if (!currentOperator || secondNum === '') return;
 
-  const result = operate(currentOperator, firstNum, secondNum, percentageApplied);
+  const result = operate(
+    currentOperator,
+    firstNum,
+    secondNum,
+    percentageApplied,
+  );
 
   display.textContent = Math.round(result * 1000) / 1000;
 
