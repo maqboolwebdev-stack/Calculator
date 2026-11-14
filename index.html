@@ -17,12 +17,17 @@
         Use the number keys and +, -, *, /, and % keys to enter a calculation.
         Press Enter or = to calculate, Backspace to delete, or Escape to clear.
       </p>
-      <output
+      <input
+        type="text"
         class="display"
+        inputmode="decimal"
         aria-label="Calculator display"
+        aria-describedby="calculator-instructions"
         aria-live="polite"
-        aria-atomic="true"
-      >0</output>
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="0"
+      />
       <div
         class="buttons-container"
         role="group"

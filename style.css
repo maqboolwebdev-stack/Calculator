@@ -84,14 +84,18 @@ button:focus-visible {
 }
 
 .display {
+  display: block;
+  width: 100%;
   min-height: clamp(4rem, 16vh, 7.25rem);
   padding: 0.313rem;
+  border: 0;
+  border-radius: 0;
+  outline: none;
   font-size: 3.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   background-color: var(--bg-clr);
   font-family: 'Courier New', Courier, monospace;
+  text-align: right;
+  caret-color: rgba(51, 255, 0, 0.825);
 }
 
 .display[data-size='medium'] {

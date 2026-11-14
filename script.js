@@ -6,27 +6,15 @@ const allOperators = document.querySelectorAll('.operator');
 const percentage = document.querySelector('.percentage');
 const equal = document.querySelector('.equal');
 
-const add = (a, b) => {
-  return a + b;
-};
-
-const subtract = (a, b) => {
-  return a - b;
-};
-
-const multiply = (a, b) => {
-  return a * b;
-};
-
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
 const divide = (a, b) => {
   if (b === 0) return `Error:can't divide by zero`;
   return a / b;
 };
 
-let firstNum = '';
-let secondNum = '';
-let currentOperator = null;
-let percentageApplied = false;
+let expression = '';
 
 const operate = (op, a, b, usePercentage = false) => {
   a = parseFloat(a);
@@ -40,23 +28,65 @@ const operate = (op, a, b, usePercentage = false) => {
       return multiply(a, usePercentage ? b / 100 : b);
     case '÷':
       return divide(a, usePercentage ? b / 100 : b);
-    case '%':
-      return (a * b) / 100;
     default:
       return null;
   }
 };
 
-function updateDisplay() {
-  if (currentOperator === null) {
-    display.textContent = firstNum || '0';
-  } else {
-    display.textContent = `${firstNum}${currentOperator}${secondNum}${percentageApplied ? '%' : ''}`;
+const normalizeExpression = (value) => {
+  let first = '';
+  let second = '';
+  let operator = '';
+  let firstHasDecimal = false;
+  let secondHasDecimal = false;
+  let percentageApplied = false;
+
+  for (const character of value) {
+    if (character >= '0' && character <= '9') {
+      if (!operator) {
+        first += character;
+      } else if (operator !== '%') {
+        percentageApplied = false;
+        second += character;
+      }
+    } else if (character === '.') {
+      if (!operator && !firstHasDecimal) {
+        first += first ? character : '0.';
+        firstHasDecimal = true;
+      } else if (operator && operator !== '%' && !secondHasDecimal) {
+        percentageApplied = false;
+        second += second ? character : '0.';
+        secondHasDecimal = true;
+      }
+    } else if ('+-×÷'.includes(character)) {
+      if (first && !operator) operator = character;
+    } else if (character === '%') {
+      if (first && !operator) {
+        operator = '%';
+      } else if (operator && operator !== '%' && second) {
+        percentageApplied = true;
+      }
+    }
   }
 
-  // Decides when to adjust font size in display
-  const length = display.textContent.length;
+  return `${first}${operator}${second}${percentageApplied ? '%' : ''}`;
+};
 
+const parseExpression = () => {
+  const match = expression.match(
+    /^(\d*(?:\.\d*)?)([+\-×÷%]?)(\d*(?:\.\d*)?)(%?)$/,
+  );
+  if (!match) return null;
+  return {
+    first: match[1],
+    operator: match[2] || null,
+    second: match[3],
+    percentageApplied: match[4] === '%',
+  };
+};
+
+const updateDisplaySize = () => {
+  const length = (expression || '0').length;
   if (length <= 7) {
     display.dataset.size = 'short';
   } else if (length <= 9) {
@@ -66,147 +96,140 @@ function updateDisplay() {
   } else {
     display.dataset.size = 'tiny';
   }
+};
+
+function updateDisplay() {
+  display.value = expression;
+  updateDisplaySize();
 }
 
-const appendNumber = (value) => {
-  percentageApplied = false;
-  const currentValue = currentOperator === null ? firstNum : secondNum;
+const updateExpressionFromInput = () => {
+  const rawValue = display.value;
+  const caret = display.selectionStart ?? rawValue.length;
+  expression = normalizeExpression(rawValue);
 
-  // Don't allow more than one Decimal point
-  if (value === '.' && currentValue.includes('.')) return;
-
-  if (currentOperator === null) {
-    if (value === '.' && firstNum === '') {
-      firstNum = '0.';
-    } else {
-      firstNum += value;
-    }
-  } else {
-    if (value === '.' && secondNum === '') {
-      secondNum = '0.';
-    } else {
-      secondNum += value;
-    }
+  if (expression !== rawValue) {
+    const adjustedCaret = normalizeExpression(rawValue.slice(0, caret)).length;
+    display.value = expression;
+    display.setSelectionRange(adjustedCaret, adjustedCaret);
   }
 
-  updateDisplay();
+  updateDisplaySize();
 };
 
-digits.forEach((button) => {
-  button.addEventListener('click', () => {
-    appendNumber(button.textContent);
-  });
-});
-
-const handleOperator = (operator) => {
-  if (firstNum === '') return;
-
-  if (currentOperator !== null && secondNum !== '') {
-    const result = operate(
-      currentOperator,
-      firstNum,
-      secondNum,
-      percentageApplied,
-    );
-
-    firstNum = String(Math.round(result * 1000) / 1000);
-    secondNum = '';
-    percentageApplied = false;
-  }
-
-  currentOperator = operator;
-
-  updateDisplay();
+const insertAtCaret = (value) => {
+  const start = display.selectionStart ?? expression.length;
+  const end = display.selectionEnd ?? start;
+  display.focus();
+  display.setRangeText(value, start, end, 'end');
+  display.dispatchEvent(new Event('input', { bubbles: true }));
 };
-
-const handlePercentage = () => {
-  if (firstNum === '') return;
-
-  if (currentOperator === null) {
-    currentOperator = '%';
-  } else if (currentOperator === '%' || secondNum === '') {
-    return;
-  } else {
-    percentageApplied = true;
-  }
-
-  updateDisplay();
-};
-
-allOperators.forEach((opButton) => {
-  opButton.addEventListener('click', () => {
-    handleOperator(opButton.textContent);
-  });
-});
-
-percentage.addEventListener('click', handlePercentage);
 
 const calculate = () => {
-  if (!currentOperator || secondNum === '') return;
+  const parts = parseExpression();
+  if (!parts?.operator || !parts.second || parts.operator === '%') return;
 
   const result = operate(
-    currentOperator,
-    firstNum,
-    secondNum,
-    percentageApplied,
+    parts.operator,
+    parts.first,
+    parts.second,
+    parts.percentageApplied,
   );
-
-  display.textContent = Math.round(result * 1000) / 1000;
-
-  firstNum = display.textContent;
-  secondNum = '';
-  currentOperator = null;
-  percentageApplied = false;
+  expression = String(Math.round(result * 1000) / 1000);
   updateDisplay();
+  display.setSelectionRange(expression.length, expression.length);
+};
+
+const addOperator = (operator) => {
+  const parts = parseExpression();
+  const caretAtEnd =
+    display.selectionStart === expression.length &&
+    display.selectionEnd === expression.length;
+
+  if (caretAtEnd && parts?.operator && parts.second) {
+    calculate();
+    insertAtCaret(operator);
+  } else if (parts?.operator && !parts.second) {
+    const operatorPosition = parts.first.length;
+    display.setRangeText(
+      operator,
+      operatorPosition,
+      operatorPosition + 1,
+      'end',
+    );
+    display.dispatchEvent(new Event('input', { bubbles: true }));
+  } else {
+    insertAtCaret(operator);
+  }
 };
 
 const clearDisplay = () => {
-  firstNum = '';
-  secondNum = '';
-  currentOperator = null;
-  percentageApplied = false;
+  expression = '';
   updateDisplay();
+  display.focus();
+  display.setSelectionRange(0, 0);
 };
 
-const deleteNumber = () => {
-  if (currentOperator === null) {
-    firstNum = firstNum.slice(0, -1);
-  } else if (secondNum !== '') {
-    percentageApplied = false;
-    secondNum = secondNum.slice(0, -1);
-  } else {
-    currentOperator = null;
-  }
+const deleteAtCaret = (forward = false) => {
+  const start = display.selectionStart ?? expression.length;
+  const end = display.selectionEnd ?? start;
+  if (start === end && (forward ? end === expression.length : start === 0))
+    return;
 
-  updateDisplay();
+  const deleteStart = start === end && !forward ? start - 1 : start;
+  const deleteEnd = start === end && forward ? end + 1 : end;
+  display.setRangeText('', deleteStart, deleteEnd, 'start');
+  display.dispatchEvent(new Event('input', { bubbles: true }));
+  display.focus();
 };
 
+display.addEventListener('input', updateExpressionFromInput);
+
+digits.forEach((button) => {
+  button.addEventListener('click', () => insertAtCaret(button.textContent));
+});
+
+allOperators.forEach((button) => {
+  button.addEventListener('click', () => addOperator(button.textContent));
+});
+
+percentage.addEventListener('click', () => insertAtCaret('%'));
 clear.addEventListener('click', clearDisplay);
-backSpace.addEventListener('click', deleteNumber);
+backSpace.addEventListener('click', () => deleteAtCaret());
 equal.addEventListener('click', calculate);
 
-// Keyboard Support
-
-const handleKeyboardInput = (e) => {
-  if (e.key === 'Escape') {
+const handleKeyboardInput = (event) => {
+  if (event.key === 'Escape') {
     clearDisplay();
-  } else if (e.key === 'Backspace') {
-    deleteNumber();
-  } else if (e.key === '=' || e.key === 'Enter') {
-    e.preventDefault();
+  } else if (event.key === 'Enter' || event.key === '=') {
+    event.preventDefault();
     calculate();
-  } else if (e.key === '%') {
-    handlePercentage();
-  } else if (['+', '-', '*', '/'].includes(e.key)) {
-    let operator = e.key;
-
-    if (operator === '*') operator = '×';
-    if (operator === '/') operator = '÷';
-
-    handleOperator(operator);
-  } else if ((e.key >= 0 && e.key <= 9) || e.key === '.') {
-    appendNumber(e.key);
+  } else if (event.key === 'Backspace' && document.activeElement !== display) {
+    event.preventDefault();
+    deleteAtCaret();
+  } else if (event.key === 'Delete' && document.activeElement !== display) {
+    event.preventDefault();
+    deleteAtCaret(true);
+  } else if (event.key === '*' || event.key === '/') {
+    event.preventDefault();
+    addOperator(event.key === '*' ? '×' : '÷');
+  } else if (
+    document.activeElement !== display &&
+    ((event.key >= '0' && event.key <= '9') ||
+      event.key === '.' ||
+      event.key === '%')
+  ) {
+    insertAtCaret(event.key);
+  } else if (['+', '-'].includes(event.key)) {
+    const caretAtEnd =
+      display.selectionStart === expression.length &&
+      display.selectionEnd === expression.length;
+    if (document.activeElement !== display || caretAtEnd) {
+      event.preventDefault();
+      addOperator(event.key);
+    }
   }
 };
 
 window.addEventListener('keydown', handleKeyboardInput);
+updateDisplay();
