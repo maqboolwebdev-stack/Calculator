@@ -199,7 +199,7 @@ buttonsContainer.addEventListener('click', (event) => {
   window.clearTimeout(clickHighlightTimeout);
   clickHighlightTimeout = window.setTimeout(() => {
     button.classList.remove('is-clicked');
-  }, 150);
+  }, 100);
 });
 
 digits.forEach((button) => {

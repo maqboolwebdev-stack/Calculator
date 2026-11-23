@@ -176,12 +176,14 @@ button.is-clicked {
 @media (max-width: 426px) {
   body {
     display: block;
+    height: 100svh;
     height: 100dvh;
     min-height: 100svh;
   }
 
   .calculator {
     width: 100%;
+    height: 100svh;
     height: 100dvh;
     min-width: 0;
     min-height: 100svh;
@@ -189,7 +191,7 @@ button.is-clicked {
   }
 
   .display {
-    flex: 0 0 28%;
+    flex: 0 0 40%;
     min-height: 0;
     padding: 1rem 1.5rem;
     overflow: hidden;
@@ -210,7 +212,7 @@ button.is-clicked {
 
   .buttons-container {
     display: flex;
-    flex: 1;
+    flex: 0 0 60%;
     flex-direction: column;
     min-height: 0;
     padding: 0.5rem;
