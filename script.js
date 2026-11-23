@@ -102,6 +102,7 @@ const updateDisplaySize = () => {
 
 function updateDisplay() {
   display.value = expression;
+  display.toggleAttribute('data-calculated', justCalculated);
   updateDisplaySize();
 }
 
@@ -112,6 +113,7 @@ const updateExpressionFromInput = (event) => {
   if (justCalculated && /^[0-9.%]$/.test(event.data ?? '')) {
     expression = normalizeExpression(event.data);
     justCalculated = false;
+    display.removeAttribute('data-calculated');
     display.value = expression;
     display.setSelectionRange(expression.length, expression.length);
     updateDisplaySize();
@@ -119,6 +121,7 @@ const updateExpressionFromInput = (event) => {
   }
 
   justCalculated = false;
+  display.removeAttribute('data-calculated');
   expression = normalizeExpression(rawValue);
 
   if (expression !== rawValue) {
