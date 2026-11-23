@@ -6,6 +6,7 @@ const clear = document.querySelector('.clear');
 const allOperators = document.querySelectorAll('.operator');
 const percentage = document.querySelector('.percentage');
 const equal = document.querySelector('.equal');
+const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
@@ -202,13 +203,14 @@ const deleteAtCaret = (forward = false) => {
   const start = display.selectionStart ?? expression.length;
   const end = display.selectionEnd ?? start;
   if (start === end && (forward ? end === expression.length : start === 0))
-    return;
+    return false;
 
   const deleteStart = start === end && !forward ? start - 1 : start;
   const deleteEnd = start === end && forward ? end + 1 : end;
   display.setRangeText('', deleteStart, deleteEnd, 'start');
   display.dispatchEvent(new Event('input', { bubbles: true }));
   display.focus();
+  return true;
 };
 
 display.addEventListener('input', updateExpressionFromInput);
@@ -239,7 +241,12 @@ allOperators.forEach((button) => {
 
 percentage.addEventListener('click', () => insertAtCaret('%'));
 clear.addEventListener('click', clearDisplay);
-backSpace.addEventListener('click', () => deleteAtCaret());
+backSpace.addEventListener('click', () => {
+  const deleted = deleteAtCaret();
+  if (deleted && isTouchDevice && typeof navigator.vibrate === 'function') {
+    navigator.vibrate(50);
+  }
+});
 equal.addEventListener('click', calculate);
 
 const handleKeyboardInput = (event) => {
