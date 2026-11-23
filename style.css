@@ -93,7 +93,8 @@ button:focus-visible {
   outline: none;
   font-size: 3.25rem;
   background-color: #f7f7f7;
-  font-family: 'Courier New', Courier, monospace;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-family: Arial, Helvetica, sans-serif;
   text-align: right;
   caret-color: rgba(51, 255, 0, 0.825);
 }
@@ -156,10 +157,10 @@ button.is-clicked {
   color: #e74851;
 }
 
-.equal svg {
+.equal img {
   height: 1.25rem;
   width: 1.25rem;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .decimal {
@@ -191,7 +192,7 @@ button.is-clicked {
   }
 
   .display {
-    flex: 0 0 40%;
+    flex: 0 0 50%;
     min-height: 0;
     padding: 1rem 1.5rem;
     overflow: hidden;
@@ -212,7 +213,7 @@ button.is-clicked {
 
   .buttons-container {
     display: flex;
-    flex: 0 0 60%;
+    flex: 0 0 50%;
     flex-direction: column;
     min-height: 0;
     padding: 0.5rem;
@@ -228,7 +229,18 @@ button.is-clicked {
     height: auto;
     min-width: 0;
     border-radius: 0.75rem;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     touch-action: manipulation;
+  }
+
+  .operator,
+  .percentage {
+    font-weight: 700;
+  }
+
+  .backspace img,
+  .equal img {
+    width: 1.75rem;
+    height: 1.75rem;
   }
 }
