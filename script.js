@@ -16,6 +16,7 @@ const divide = (a, b) => {
 };
 
 let expression = '';
+let justCalculated = false;
 
 const operate = (op, a, b, usePercentage = false) => {
   a = parseFloat(a);
@@ -104,9 +105,20 @@ function updateDisplay() {
   updateDisplaySize();
 }
 
-const updateExpressionFromInput = () => {
+const updateExpressionFromInput = (event) => {
   const rawValue = display.value;
   const caret = display.selectionStart ?? rawValue.length;
+
+  if (justCalculated && /^[0-9.%]$/.test(event.data ?? '')) {
+    expression = normalizeExpression(event.data);
+    justCalculated = false;
+    display.value = expression;
+    display.setSelectionRange(expression.length, expression.length);
+    updateDisplaySize();
+    return;
+  }
+
+  justCalculated = false;
   expression = normalizeExpression(rawValue);
 
   if (expression !== rawValue) {
@@ -121,6 +133,15 @@ const updateExpressionFromInput = () => {
 const insertAtCaret = (value) => {
   const start = display.selectionStart ?? expression.length;
   const end = display.selectionEnd ?? start;
+
+  if (justCalculated) {
+    if (/^[0-9.%]$/.test(value)) {
+      expression = '';
+      display.value = '';
+    }
+    justCalculated = false;
+  }
+
   display.focus();
   display.setRangeText(value, start, end, 'end');
   display.dispatchEvent(new Event('input', { bubbles: true }));
@@ -137,6 +158,7 @@ const calculate = () => {
     parts.percentageApplied,
   );
   expression = String(Math.round(result * 1000) / 1000);
+  justCalculated = true;
   updateDisplay();
   display.setSelectionRange(expression.length, expression.length);
 };
@@ -166,12 +188,14 @@ const addOperator = (operator) => {
 
 const clearDisplay = () => {
   expression = '';
+  justCalculated = false;
   updateDisplay();
   display.focus();
   display.setSelectionRange(0, 0);
 };
 
 const deleteAtCaret = (forward = false) => {
+  justCalculated = false;
   const start = display.selectionStart ?? expression.length;
   const end = display.selectionEnd ?? start;
   if (start === end && (forward ? end === expression.length : start === 0))
@@ -250,3 +274,5 @@ const handleKeyboardInput = (event) => {
 
 window.addEventListener('keydown', handleKeyboardInput);
 updateDisplay();
+display.focus();
+display.setSelectionRange(expression.length, expression.length);
