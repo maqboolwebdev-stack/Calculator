@@ -92,7 +92,7 @@ button:focus-visible {
   border-radius: 0;
   outline: none;
   font-size: 3.25rem;
-  background-color: var(--bg-clr);
+  background-color: #f7f7f7;
   font-family: 'Courier New', Courier, monospace;
   text-align: right;
   caret-color: rgba(51, 255, 0, 0.825);
@@ -114,12 +114,19 @@ button:focus-visible {
   font-size: 1.5rem;
 }
 
+.backspace img {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 auto;
+}
+
 .equal {
-  background-color: rgba(51, 255, 0, 0.548);
+  background-color: hsl(147, 71%, 46%);
   font-size: 1.563rem;
 }
 .equal:active {
-  background-color: rgba(51, 255, 0, 0.726);
+  background-color: hsl(147, 76%, 42%);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -128,18 +135,17 @@ button:focus-visible {
   }
 
   .equal:hover {
-    background-color: rgba(51, 255, 0, 0.726);
+    background-color: hsla(108, 100%, 50%, 0.726);
   }
 }
 
 .operator,
 .percentage {
-  color: #7a007a;
+  color: hsl(147, 71%, 46%);
 }
 
-.clear,
-.backspace {
-  color: #b00020;
+.clear {
+  color: #e74851;
 }
 
 .equal svg {
