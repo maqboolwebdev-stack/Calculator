@@ -179,7 +179,7 @@ button:focus-visible {
     min-height: 0;
     padding: 1rem 1.5rem;
     overflow: hidden;
-    font-size: clamp(2.5rem, 12vw, 4rem);
+    font-size: clamp(3rem, 12vw, 4rem);
   }
 
   .display[data-size='medium'] {
