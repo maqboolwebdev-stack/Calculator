@@ -126,7 +126,7 @@ button:focus-visible {
   font-size: 1.563rem;
 }
 .equal:active {
-  background-color: hsl(147, 76%, 42%);
+  background-color: hsl(147, 77%, 40%);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -135,8 +135,16 @@ button:focus-visible {
   }
 
   .equal:hover {
-    background-color: hsla(108, 100%, 50%, 0.726);
+    background-color: hsl(147, 74%, 38%);
   }
+}
+
+button.is-clicked {
+  background-color: #f2f2f2;
+}
+
+.equal.is-clicked {
+  background-color: hsl(147, 81%, 35%);
 }
 
 .operator,

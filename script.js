@@ -1,4 +1,5 @@
 const display = document.querySelector('.display');
+const buttonsContainer = document.querySelector('.buttons-container');
 const digits = document.querySelectorAll('.digits');
 const backSpace = document.querySelector('.backspace');
 const clear = document.querySelector('.clear');
@@ -184,6 +185,22 @@ const deleteAtCaret = (forward = false) => {
 };
 
 display.addEventListener('input', updateExpressionFromInput);
+
+let clickHighlightTimeout;
+
+buttonsContainer.addEventListener('click', (event) => {
+  if (!(event.target instanceof Element)) return;
+
+  const button = event.target.closest('button');
+  if (!button) return;
+
+  buttonsContainer.querySelector('.is-clicked')?.classList.remove('is-clicked');
+  button.classList.add('is-clicked');
+  window.clearTimeout(clickHighlightTimeout);
+  clickHighlightTimeout = window.setTimeout(() => {
+    button.classList.remove('is-clicked');
+  }, 150);
+});
 
 digits.forEach((button) => {
   button.addEventListener('click', () => insertAtCaret(button.textContent));
